@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as appIndexRouteImport } from './routes/(app)/index'
-import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as authRegistrationRouteImport } from './routes/(auth)/registration'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
 const authRouteRoute = authRouteRouteImport.update({
@@ -28,9 +28,9 @@ const appIndexRoute = appIndexRouteImport.update({
   path: '/',
   getParentRoute: () => appRouteRoute,
 } as any)
-const authRegisterRoute = authRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
+const authRegistrationRoute = authRegistrationRouteImport.update({
+  id: '/registration',
+  path: '/registration',
   getParentRoute: () => authRouteRoute,
 } as any)
 const authLoginRoute = authLoginRouteImport.update({
@@ -42,32 +42,32 @@ const authLoginRoute = authLoginRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof appIndexRoute
   '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
+  '/registration': typeof authRegistrationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof appIndexRoute
   '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
+  '/registration': typeof authRegistrationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
   '/(auth)': typeof authRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
-  '/(auth)/register': typeof authRegisterRoute
+  '/(auth)/registration': typeof authRegistrationRoute
   '/(app)/': typeof appIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register'
+  fullPaths: '/' | '/login' | '/registration'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register'
+  to: '/' | '/login' | '/registration'
   id:
     | '__root__'
     | '/(app)'
     | '/(auth)'
     | '/(auth)/login'
-    | '/(auth)/register'
+    | '/(auth)/registration'
     | '/(app)/'
   fileRoutesById: FileRoutesById
 }
@@ -99,11 +99,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appIndexRouteImport
       parentRoute: typeof appRouteRoute
     }
-    '/(auth)/register': {
-      id: '/(auth)/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof authRegisterRouteImport
+    '/(auth)/registration': {
+      id: '/(auth)/registration'
+      path: '/registration'
+      fullPath: '/registration'
+      preLoaderRoute: typeof authRegistrationRouteImport
       parentRoute: typeof authRouteRoute
     }
     '/(auth)/login': {
@@ -130,12 +130,12 @@ const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
 
 interface authRouteRouteChildren {
   authLoginRoute: typeof authLoginRoute
-  authRegisterRoute: typeof authRegisterRoute
+  authRegistrationRoute: typeof authRegistrationRoute
 }
 
 const authRouteRouteChildren: authRouteRouteChildren = {
   authLoginRoute: authLoginRoute,
-  authRegisterRoute: authRegisterRoute,
+  authRegistrationRoute: authRegistrationRoute,
 }
 
 const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
