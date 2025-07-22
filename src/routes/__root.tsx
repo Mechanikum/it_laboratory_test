@@ -1,5 +1,6 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
+// import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 interface RouterContext {
 	isAuthenticated: boolean | undefined;
@@ -13,7 +14,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 			}
 		>
 			<Outlet />
-			<TanStackRouterDevtools />
+			{/*<TanStackRouterDevtools />*/}
 		</div>
 	),
 });

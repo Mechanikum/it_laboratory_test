@@ -8,25 +8,26 @@ import {
 	useMemo,
 	useState,
 } from "react";
+import { useRegister } from "@/features/auth/api/use-register";
 import { useRedirectReturn } from "@/features/auth/lib/use-redirect-return";
-import NameStep from "@/features/auth/ui/registration/name-step";
-import PassionsStep from "@/features/auth/ui/registration/passions-step";
-import type { UserData } from "@/shared/model/user";
+import type { RegistrationData } from "@/features/auth/model/registration-data";
+import NameStep from "@/features/auth/ui/registration/steps/name-step";
+import PassionsStep from "@/features/auth/ui/registration/steps/passions-step";
+import PhotoStep from "@/features/auth/ui/registration/steps/photo-step";
 
 export const registrationSteps = {
 	name: NameStep,
 	passions: PassionsStep,
-	photos: () => <></>,
+	photos: PhotoStep,
 };
 
 export const registrationStepsKeys = Object.keys(registrationSteps);
 
-type RegistrationUserData = Omit<UserData, "id" | "verified">;
-
 interface RegisterStepsContextProps {
-	values: RegistrationUserData;
-	setValues: Dispatch<SetStateAction<RegistrationUserData>>;
+	values: RegistrationData;
+	setValues: Dispatch<SetStateAction<RegistrationData>>;
 	progress: number;
+	currentIndex: number;
 	currentStep: string;
 	setCurrentStep: Dispatch<SetStateAction<string>>;
 	stepForward: () => void;
@@ -50,19 +51,23 @@ export const RegistrationStepsContextProvider: React.FC<{
 	children: ReactNode;
 }> = ({ children }) => {
 	const { navigateBack } = useRedirectReturn();
+	const register = useRegister();
 
-	const [values, setValues] = useState<RegistrationUserData>({
+	const [values, setValues] = useState<RegistrationData>({
 		name: "",
 		age: 22,
 		passions: [],
 		photos: [],
 	});
-	const [currentStep, setCurrentStep] = useState(registrationStepsKeys[1]);
+	const [currentStep, setCurrentStep] = useState(registrationStepsKeys[0]);
 
 	const currentIndex = registrationStepsKeys.indexOf(currentStep);
 
 	const progress = useMemo(
-		() => Math.round((currentIndex / registrationStepsKeys.length) * 100),
+		() =>
+			Math.round(
+				((currentIndex + 1) / registrationStepsKeys.length) * 100,
+			),
 		[currentIndex],
 	);
 
@@ -70,7 +75,9 @@ export const RegistrationStepsContextProvider: React.FC<{
 		if (currentIndex < registrationStepsKeys.length - 1) {
 			setCurrentStep(registrationStepsKeys[currentIndex + 1]);
 		} else {
-			navigateBack();
+			register.mutateAsync(values).then(() => {
+				navigateBack();
+			});
 		}
 	};
 
@@ -88,6 +95,7 @@ export const RegistrationStepsContextProvider: React.FC<{
 				values,
 				setValues,
 				currentStep,
+				currentIndex,
 				setCurrentStep,
 				progress,
 				stepForward,

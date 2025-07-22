@@ -1,0 +1,145 @@
+import Autoplay from "embla-carousel-autoplay";
+import { Check } from "lucide-react";
+import type * as React from "react";
+import { memo, useEffect, useState } from "react";
+import { cn } from "@/shared/lib/utils";
+import type { UserData } from "@/shared/model/user";
+import {
+	Carousel,
+	type CarouselApi,
+	CarouselContent,
+	CarouselItem,
+} from "@/shared/ui/carousel";
+
+const UserCard: React.FC<UserData & { children: React.ReactNode }> = ({
+	name,
+	photos,
+	age,
+	verified,
+	passions,
+	children,
+}) => {
+	const [api, setApi] = useState<CarouselApi>();
+	const [current, setCurrent] = useState(0);
+
+	useEffect(() => {
+		if (!api) {
+			return;
+		}
+
+		setCurrent(api.selectedScrollSnap());
+
+		api.on("select", () => {
+			setCurrent(api.selectedScrollSnap());
+		});
+	}, [api]);
+
+	return (
+		<div
+			className={"flex-[1_1_0] flex rounded-lg overflow-hidden relative"}
+		>
+			<Carousel
+				className="size-full flex [&>div]:flex-[1_1_0]"
+				setApi={setApi}
+				opts={{
+					watchDrag: false,
+					loop: true,
+				}}
+				plugins={[
+					Autoplay({
+						delay: 5000,
+					}),
+				]}
+			>
+				<CarouselContent className={"size-full ml-0"}>
+					{photos.map((photo) => {
+						const photoUrl = URL.createObjectURL(photo);
+						return (
+							<CarouselItem
+								key={`carousel-${photo.name}`}
+								className={"pl-0"}
+							>
+								<img
+									src={photoUrl}
+									alt={photo.name}
+									className={"object-cover size-full"}
+								/>
+							</CarouselItem>
+						);
+					})}
+				</CarouselContent>
+			</Carousel>
+			{photos.length > 1 && (
+				<div className={"absolute w-full top-1 px-2.5 flex gap-1"}>
+					{photos.map((_, i) => (
+						<div
+							key={`progress-${i}`}
+							data-active={i === current}
+							className={
+								"flex-1 bg-badge data-[active=true]:bg-badge-foreground h-1 duration-500 rounded-full transition-all"
+							}
+						/>
+					))}
+				</div>
+			)}
+			<div
+				className={
+					"absolute flex flex-col justify-end px-4 py-3 w-full min-h-[366px] bottom-0 bg-linear-to-t/longer from-black via-30% via-[#303030]/30 to-white/0"
+				}
+			>
+				<div
+					className={"flex items-center text-start gap-2 text-white"}
+				>
+					<p
+						className={cn(
+							"text-[2.125rem] min-w-0 leading-11 font-bold text-balance",
+							{ "pr-6": verified },
+						)}
+					>
+						<span className={"relative"}>
+							<span>{name}</span>
+							<span
+								className={"ml-2 text-[1.625rem] font-normal"}
+							>
+								{age}
+							</span>
+							{verified && (
+								<div
+									className={
+										"absolute left-[calc(100%+0.75rem)] top-1/2 -translate-y-1/2 flex-0 aspect-square size-6 bg-[#1786FF] rounded-full text-white text-center p-1"
+									}
+								>
+									<Check className={"size-full"} />
+								</div>
+							)}
+						</span>
+					</p>
+					<div
+						className={
+							"flex-0 ml-auto aspect-square size-6 bg-white rounded-full text-black text-center"
+						}
+					>
+						i
+					</div>
+				</div>
+				{!!passions.length && (
+					<div className={"flex flex-wrap gap-1.5 mt-2.5"}>
+						{passions.map((passion) => (
+							<div
+								key={passion}
+								className={
+									"px-3 py-1 bg-badge text-badge-foreground border font-light border-badge-foreground rounded-full text-sm "
+								}
+							>
+								{passion}
+							</div>
+						))}
+					</div>
+				)}
+				{children}
+			</div>
+		</div>
+	);
+};
+
+export default memo(UserCard);

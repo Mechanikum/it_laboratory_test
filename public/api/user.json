@@ -1,7 +1,10 @@
 {
-  "name": "User 1",
-  "age": "22",
-  "verified": true,
-  "passions": [],
-  "photos": []
+	"name": "User 1",
+	"age": "22",
+	"verified": true,
+	"passions": [],
+	"photos": [],
+	"settings": {
+		"theme": "light"
+	}
 }

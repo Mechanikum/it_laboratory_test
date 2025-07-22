@@ -10,11 +10,15 @@ const RegistrationInner = () => {
 
 	return (
 		<>
-			<div
-				className={"bg-linear-to-r from-primary to-trinary h-2.5"}
-				style={{ width: `${Math.max(10, progress)}%` }}
-			/>
-			<Tabs value={currentStep} className={"flex-1"}>
+			<div className={"w-screen fixed top-0 left-0"}>
+				<div
+					className={
+						"bg-linear-to-r from-primary to-trinary transition-all duration-600 h-2.5"
+					}
+					style={{ width: `${Math.max(10, progress)}%` }}
+				/>
+			</div>
+			<Tabs value={currentStep} className={"flex-1 pt-2.5"}>
 				{Object.entries(registrationSteps).map(([key, Component]) => (
 					<TabsContent
 						key={key}

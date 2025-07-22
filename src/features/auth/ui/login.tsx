@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useLogin } from "@/features/auth/api/use-login";
-import LoginSchema from "@/features/auth/model/loginData";
+import LoginSchema from "@/features/auth/model/login-data";
 import { useAppForm } from "@/shared/form";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";

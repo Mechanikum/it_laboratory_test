@@ -1,5 +1,5 @@
 import { useRegistrationStepsContext } from "@/features/auth/lib/registration-steps-context";
-import RegistrationControls from "@/features/auth/ui/registration/registration-controls";
+import RegistrationControls from "@/features/auth/ui/registration/components/registration-controls";
 import { useAppForm } from "@/shared/form";
 import UserSchema from "@/shared/model/user";
 import { Label } from "@/shared/ui/label";
@@ -61,7 +61,7 @@ const NameStep = () => {
 				/>
 				<form.AppForm>
 					<form.SubmitButton
-						editRequired
+						editRequired={!values.name.length}
 						className={"w-full mt-auto"}
 					>
 						Continue

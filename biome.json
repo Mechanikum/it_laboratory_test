@@ -29,7 +29,8 @@
 			},
 			"correctness": {
 				"noChildrenProp": "off"
-			}
+			},
+			"a11y": "warn"
 		},
 		"includes": ["**", "!**/node_modules", "!**/dist", "!**/public"]
 	},

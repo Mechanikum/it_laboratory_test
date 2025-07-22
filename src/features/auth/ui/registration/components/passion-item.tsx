@@ -14,7 +14,7 @@ const PassionItem: React.FC<
 		data-active={active}
 		variant={"ghost"}
 		className={
-			"border rounded-full px-3 py-1 text-sm text-muted-foreground h-fit data-[active=true]:text-primary-foreground data-[active=true]:bg-primary/80 hover:data-[active=true]:bg-primary dark:hover:data-[active=true]:bg-primary"
+			"border rounded-full px-3 py-1 text-sm text-muted-foreground h-fit data-[active=true]:text-primary-foreground dark:data-[active=true]:bg-primary/80 data-[active=true]:bg-secondary hover:data-[active=true]:bg-primary dark:hover:data-[active=true]:bg-primary"
 		}
 		{...props}
 	>

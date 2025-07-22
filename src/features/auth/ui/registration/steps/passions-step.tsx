@@ -1,6 +1,8 @@
+import { Loader2 } from "lucide-react";
+import { useCallback } from "react";
 import { useRegistrationStepsContext } from "@/features/auth/lib/registration-steps-context";
-import PassionItem from "@/features/auth/ui/registration/passion-item";
-import RegistrationControls from "@/features/auth/ui/registration/registration-controls";
+import PassionItem from "@/features/auth/ui/registration/components/passion-item";
+import RegistrationControls from "@/features/auth/ui/registration/components/registration-controls";
 import { usePassions } from "@/shared/api/queries/use-passions";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
@@ -10,6 +12,21 @@ const PassionsStep = () => {
 
 	const activePassions = values.passions;
 	const passions = usePassions();
+
+	const togglePassion = useCallback(
+		(passion: string) => {
+			activePassions.includes(passion)
+				? setValues((state) => ({
+						...state,
+						passions: state.passions.filter((p) => p !== passion),
+					}))
+				: setValues((state) => ({
+						...state,
+						passions: [...state.passions, passion],
+					}));
+		},
+		[activePassions, setValues],
+	);
 
 	return (
 		<>
@@ -28,34 +45,24 @@ const PassionsStep = () => {
 					"flex-[1_1_0] justify-center flex flex-wrap gap-2 p-8 overflow-y-auto border-y"
 				}
 			>
-				{passions.data?.length &&
+				{passions.status === "pending" ? (
+					<Loader2 className="size-6 animate-spin" />
+				) : passions.status === "error" ? (
+					<span>Error: {passions.error.message}</span>
+				) : (
 					passions.data.map((passion, i) => (
 						<PassionItem
 							key={`${passion}-${i}`}
 							name={passion}
 							active={activePassions.includes(passion)}
-							onClick={() => {
-								activePassions.includes(passion)
-									? setValues((state) => ({
-											...state,
-											passions: state.passions.filter(
-												(p) => p !== passion,
-											),
-										}))
-									: setValues((state) => ({
-											...state,
-											passions: [
-												...state.passions,
-												passion,
-											],
-										}));
-							}}
+							onClick={() => togglePassion(passion)}
 							disabled={
 								!activePassions.includes(passion) &&
 								activePassions.length >= 5
 							}
 						/>
-					))}
+					))
+				)}
 			</div>
 			<div className={"p-8"}>
 				<Button className={"w-full"} onClick={stepForward}>
