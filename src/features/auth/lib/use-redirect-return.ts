@@ -1,13 +1,16 @@
-import { useNavigate, useRouter, useSearch } from "@tanstack/react-router";
+import { useLocation, useNavigate, useRevalidator } from "react-router";
 
 export const useRedirectReturn = () => {
 	const navigate = useNavigate();
-	const router = useRouter();
-	const search = useSearch({ from: "/(auth)" });
+	const location = useLocation();
+	const revalidator = useRevalidator();
+
+	const params = new URLSearchParams(location.search);
+	const redirectTo = params.get("redirect") ?? "/";
 
 	const navigateBack = async () => {
-		await router.invalidate();
-		await navigate({ to: search.redirect ?? "/" });
+		await revalidator.revalidate();
+		navigate(redirectTo, { replace: true });
 	};
 
 	return { navigateBack };

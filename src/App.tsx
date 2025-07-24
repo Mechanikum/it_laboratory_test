@@ -1,15 +1,12 @@
-import { RouterProvider } from "@tanstack/react-router";
 import router from "@/shared/lib/router";
-import { useAuthStore } from "@/shared/stores/auth-store";
 
 import "@fontsource-variable/inter/index.css";
 import "@fontsource-variable/inter/wght.css";
 import "@fontsource-variable/inter/wght-italic.css";
+import { RouterProvider } from "react-router";
 
 const App = () => {
-	const isAuthenticated = useAuthStore((state) => !!state.token);
-
-	return <RouterProvider router={router} context={{ isAuthenticated }} />;
+	return <RouterProvider router={router} />;
 };
 
 export default App;

@@ -22,7 +22,7 @@ export const useLogin = () => {
 		},
 		onSuccess: async (data) => {
 			setToken(data.access_token);
-			prefetchUser();
+			await prefetchUser();
 			navigateBack();
 		},
 		onError: (error) => {
