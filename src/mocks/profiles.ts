@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { api } from "@/shared/api";
+import type { BackendUserData } from "@/shared/model/user";
 
 const BackendUserSchema = z.object({
 	id: z.string(),
@@ -43,6 +44,6 @@ export async function generateMockUsers(count: number) {
 			passions: pickRandom(passions, pCount),
 			photos: pickRandom(images, phCount),
 		};
-		return BackendUserSchema.parse(user);
+		return BackendUserSchema.parse(user) as BackendUserData;
 	});
 }
