@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRegistrationStepsContext } from "@/features/auth/lib/registration-steps-context";
 import PhotoItem from "@/features/auth/ui/registration/components/photo-item";
 import RegistrationControls from "@/features/auth/ui/registration/components/registration-controls";
-import UserCard from "@/features/user-card/ui/UserCard";
+import UserCard from "@/features/user-card/ui/user-card";
 import {
 	convertImagesToWebp,
 	getImages,

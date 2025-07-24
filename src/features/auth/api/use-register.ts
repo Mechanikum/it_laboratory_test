@@ -4,7 +4,6 @@ import type { RegistrationData } from "@/features/auth/model/registration-data";
 import { api } from "@/shared/api";
 import { prefetchUser } from "@/shared/api/queries/use-user";
 import { useAuthStore } from "@/shared/stores/auth-store";
-import { useThemeStore } from "@/shared/stores/theme-store";
 
 interface RegisterResponse {
 	access_token: string;

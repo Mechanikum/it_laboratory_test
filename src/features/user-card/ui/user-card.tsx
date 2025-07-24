@@ -1,7 +1,7 @@
 import Autoplay from "embla-carousel-autoplay";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import type * as React from "react";
-import { memo, useEffect, useState } from "react";
+import { type ComponentPropsWithRef, memo, useEffect, useState } from "react";
 import { cn } from "@/shared/lib/utils";
 import type { UserData } from "@/shared/model/user";
 import {
@@ -11,62 +11,95 @@ import {
 	CarouselItem,
 } from "@/shared/ui/carousel";
 
-const UserCard: React.FC<UserData & { children: React.ReactNode }> = ({
+const UserCard: React.FC<
+	UserData & ComponentPropsWithRef<"div"> & { paused?: boolean }
+> = ({
+	id,
 	name,
 	photos,
 	age,
 	verified,
 	passions,
+	className,
 	children,
+	paused = false,
+	...props
 }) => {
-	const [api, setApi] = useState<CarouselApi>();
+	const [items, setItems] = useState<{ file: File; url: string }[]>([]);
+	const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 	const [current, setCurrent] = useState(0);
 
 	useEffect(() => {
-		if (!api) {
+		if (!carouselApi) {
 			return;
 		}
 
-		setCurrent(api.selectedScrollSnap());
+		setCurrent(carouselApi.selectedScrollSnap());
 
-		api.on("select", () => {
-			setCurrent(api.selectedScrollSnap());
+		carouselApi.on("select", () => {
+			setCurrent(carouselApi.selectedScrollSnap());
 		});
-	}, [api]);
+	}, [carouselApi]);
+
+	useEffect(() => {
+		let isMounted = true;
+		const createdUrls: string[] = [];
+
+		Promise.all(photos.map((p) => Promise.resolve(p))).then((files) => {
+			if (!isMounted) return;
+			const mapped = files.map((file) => {
+				const url = URL.createObjectURL(file);
+				createdUrls.push(url);
+				return { file, url };
+			});
+			setItems(mapped);
+		});
+
+		return () => {
+			isMounted = false;
+			createdUrls.forEach(URL.revokeObjectURL);
+		};
+	}, [photos]);
 
 	return (
 		<div
-			className={"flex-[1_1_0] flex rounded-lg overflow-hidden relative"}
+			className={cn(
+				"flex-[1_1_0] flex rounded-lg overflow-hidden relative select-none",
+				className,
+			)}
+			{...props}
 		>
 			<Carousel
-				className="size-full flex [&>div]:flex-[1_1_0]"
-				setApi={setApi}
+				className="size-full flex [&>div]:flex-[1_1_0] pointer-events-none"
+				setApi={setCarouselApi}
 				opts={{
 					watchDrag: false,
 					loop: true,
 				}}
 				plugins={[
 					Autoplay({
-						delay: 5000,
+						active: !paused,
+						delay: 2000,
 					}),
 				]}
 			>
 				<CarouselContent className={"size-full ml-0"}>
-					{photos.map((photo) => {
-						const photoUrl = URL.createObjectURL(photo);
-						return (
+					{items.length === 0 ? (
+						<Loader2 className="size-9 animate-spin m-auto" />
+					) : (
+						items.map(({ file, url }) => (
 							<CarouselItem
-								key={`carousel-${photo.name}`}
-								className={"pl-0"}
+								key={`carousel-${file.name}`}
+								className="pl-0"
 							>
 								<img
-									src={photoUrl}
-									alt={photo.name}
-									className={"object-cover size-full"}
+									src={url}
+									alt={file.name}
+									className="object-cover size-full"
 								/>
 							</CarouselItem>
-						);
-					})}
+						))
+					)}
 				</CarouselContent>
 			</Carousel>
 			{photos.length > 1 && (
@@ -104,13 +137,13 @@ const UserCard: React.FC<UserData & { children: React.ReactNode }> = ({
 								{age}
 							</span>
 							{verified && (
-								<div
+								<span
 									className={
 										"absolute left-[calc(100%+0.75rem)] top-1/2 -translate-y-1/2 flex-0 aspect-square size-6 bg-[#1786FF] rounded-full text-white text-center p-1"
 									}
 								>
 									<Check className={"size-full"} />
-								</div>
+								</span>
 							)}
 						</span>
 					</p>
