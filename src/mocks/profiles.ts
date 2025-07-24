@@ -1,5 +1,3 @@
-// @ts-expect-error Custom plugin
-import images from "virtual:images-list";
 import { z } from "zod";
 import { api } from "@/shared/api";
 
@@ -26,6 +24,7 @@ function pickRandom<T>(arr: T[], count: number) {
 
 export async function generateMockUsers(count: number) {
 	const { data: passions } = await api.get<string[]>("/api/passions.json");
+	const { data: images } = await api.get<string[]>("/api/images.json");
 
 	return Array.from({ length: count }, () => {
 		const id = crypto.randomUUID();
