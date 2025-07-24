@@ -9,7 +9,7 @@ interface VoteProfileRequest {
 export const useVoteProfile = () =>
 	useMutation({
 		mutationFn: async (data: VoteProfileRequest) => {
-			const response = await api.post("/api/vote.json", data);
+			const response = await api.get("/api/vote.json", { params: data });
 			return response.data;
 		},
 	});
