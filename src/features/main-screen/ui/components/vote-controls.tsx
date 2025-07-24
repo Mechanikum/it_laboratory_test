@@ -36,7 +36,7 @@ const ControlsButton: React.FC<ComponentPropsWithRef<typeof motion.button>> = ({
 			type={"button"}
 			onClick={handleClick}
 			className={cn(
-				`rounded-full bg-transparent hover:bg-current/20 transition-colors`,
+				`rounded-full bg-transparent hover:bg-current/20 transition-colors disabled:pointer-events-none disabled:opacity-50`,
 				className,
 			)}
 			{...props}
