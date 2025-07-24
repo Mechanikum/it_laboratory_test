@@ -3,6 +3,7 @@
 To run in dev:
 ```shell
 pnpm install
+pnpm run prebuild # Generate a manifest of images in /public/images
 pnpm run dev
 ```
 
@@ -18,4 +19,7 @@ If any errors related to Tanstack routes occur, try regenerating routeTree by
 pnpm run generate:routes
 ```
 
-You can add your own images to `/public/images` folder.
+If cards appear without images or you want to add your own pictures (`/public/images`) run
+```shell
+pnpm run prebuild
+```
