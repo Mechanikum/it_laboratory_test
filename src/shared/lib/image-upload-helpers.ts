@@ -133,9 +133,7 @@ type ConversionResult =
 	| { original: File; converted: File; error: null }
 	| { original: File; converted: null; error: GetFileError };
 
-async function convertImagesToWebp(
-	files: FileList,
-): Promise<ConversionResult[]> {
+async function convertImagesToWebp(files: FileList) {
 	const arr = Array.from(files);
 	const settled = await Promise.allSettled(
 		arr.map((f) =>

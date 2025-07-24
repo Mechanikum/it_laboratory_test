@@ -10,7 +10,7 @@ const buttonVariants = cva(
 		variants: {
 			variant: {
 				default:
-					"bg-linear-to-tr hover:contrast-115 hover:saturation-105 rounded-full to-primary from-secondary text-primary-foreground text-lg",
+					"bg-linear-to-tr hover:contrast-115 hover:saturation-105 rounded-full to-secondary from-trinary text-primary-foreground text-lg",
 				destructive:
 					"bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
 				outline:

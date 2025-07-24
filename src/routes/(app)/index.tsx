@@ -1,9 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import MainScreen from "@/features/main-screen/ui/main-screen";
 
-export const Route = createFileRoute('/(app)/')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/(app)/index/"!</div>
-}
+export const Route = createFileRoute("/(app)/")({
+	component: MainScreen,
+});

@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import NavigationPanel from "@/features/navigation/ui/navigation-panel";
 
 export const Route = createFileRoute("/(app)")({
 	component: App,
@@ -16,9 +17,9 @@ export const Route = createFileRoute("/(app)")({
 
 function App() {
 	return (
-		<div className="p-2">
-			<h3>Welcome Home!</h3>
+		<>
 			<Outlet />
-		</div>
+			<NavigationPanel />
+		</>
 	);
 }

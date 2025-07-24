@@ -72,10 +72,9 @@ const PhotoItem: React.FC<PhotoItemProps> = ({
 					/>
 					<div
 						className={
-							"rounded-full size-full absolute bg-linear-to-tr z-[-1] opacity-0 group-data-[empty=true]/card:opacity-100 transition-all duration-500 hover:contrast-115 hover:saturation-105 to-primary from-secondary"
+							"rounded-full size-full absolute bg-linear-to-tr z-[-1] opacity-0 group-data-[empty=true]/card:opacity-100 transition-all duration-500 hover:contrast-115 hover:saturation-105 to-secondary from-trinary"
 						}
 					/>
-					{/** biome-ignore lint/a11y/noSvgWithoutTitle: Utility svg, there is more harm from title, than use */}
 					<svg
 						width="16"
 						height="16"

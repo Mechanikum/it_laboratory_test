@@ -13,7 +13,7 @@ const RegistrationInner = () => {
 			<div className={"w-screen fixed top-0 left-0"}>
 				<div
 					className={
-						"bg-linear-to-r from-primary to-trinary transition-all duration-600 h-2.5"
+						"bg-linear-to-r from-secondary to-[#E010CD] transition-all duration-600 h-2.5"
 					}
 					style={{ width: `${Math.max(10, progress)}%` }}
 				/>

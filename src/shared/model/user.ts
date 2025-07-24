@@ -6,14 +6,14 @@ const UserSchema = z.object({
 	age: z.number().min(18),
 	verified: z.boolean().optional(),
 	passions: z.array(z.string()),
-	photos: z.array(z.file()),
+	photos: z.array(z.union([z.file(), z.promise(z.file())])),
 });
 
 const UserSettingsSchema = z.object({
 	theme: z.enum(["light", "dark", "system"]),
 });
 
-export type UserData = z.infer<typeof UserSchema>;
+export type UserData = z.input<typeof UserSchema>;
 
 export type UserDataWithSettings = UserData & {
 	settings: z.infer<typeof UserSettingsSchema>;
