@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { api } from "@/shared/api";
 
@@ -26,14 +27,8 @@ export async function generateMockUsers(count: number) {
 	const { data: passions } = await api.get<string[]>("/api/passions.json");
 	const { data: images } = await api.get<string[]>("/api/images.json");
 
-	console.log("Generating profiles");
-	console.log("FROM:");
-	console.log("passions:", passions);
-	console.log("images:", images);
 	return Array.from({ length: count }, (_, i) => {
-		console.log(`Generating profile #${i}`);
-		const id = crypto.randomUUID();
-		console.log(`Generated ID ${id}`);
+		const id = uuidv4();
 		const name = `user_${id.slice(0, 5)}`;
 		const age = getRandomInt(18, 80);
 		const verified = Math.random() < 0.5 ? undefined : Math.random() < 0.8;
