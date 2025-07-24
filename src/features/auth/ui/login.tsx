@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useSearchParams } from "react-router";
 import { useLogin } from "@/features/auth/api/use-login";
 import LoginSchema from "@/features/auth/model/login-data";
 import { useAppForm } from "@/shared/form";
@@ -7,6 +7,8 @@ import { Label } from "@/shared/ui/label";
 
 const Login = () => {
 	const login = useLogin();
+	const [searchParams] = useSearchParams();
+	const redirect = searchParams.get("redirect");
 
 	const form = useAppForm({
 		defaultValues: {
@@ -54,7 +56,10 @@ const Login = () => {
 						<Input id="password" type="password" required />
 					</div>
 					<form.AppForm>
-						<form.SubmitButton className={"w-full"}>
+						<form.SubmitButton
+							className={"w-full"}
+							disabled={login.isPending}
+						>
 							Login
 						</form.SubmitButton>
 					</form.AppForm>
@@ -62,7 +67,11 @@ const Login = () => {
 				<div className="text-center text-sm">
 					Don't have an account?{" "}
 					<Link
-						to="/registration"
+						to={
+							redirect
+								? `/registration?redirect=${encodeURIComponent(redirect)}`
+								: "/registration"
+						}
 						className="underline underline-offset-4"
 					>
 						Sign up

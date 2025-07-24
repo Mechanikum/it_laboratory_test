@@ -4,10 +4,12 @@ import {
 	type Dispatch,
 	type ReactNode,
 	type SetStateAction,
+	useCallback,
 	useContext,
 	useMemo,
 	useState,
 } from "react";
+import { useBlocker } from "react-router";
 import { useRegister } from "@/features/auth/api/use-register";
 import { useRedirectReturn } from "@/features/auth/lib/use-redirect-return";
 import type { RegistrationData } from "@/features/auth/model/registration-data";
@@ -60,8 +62,16 @@ export const RegistrationStepsContextProvider: React.FC<{
 		photos: [],
 	});
 	const [currentStep, setCurrentStep] = useState(registrationStepsKeys[0]);
-
 	const currentIndex = registrationStepsKeys.indexOf(currentStep);
+
+	const shouldBlock = useCallback(() => {
+		const canGetBack = currentIndex > 0;
+		if (canGetBack) {
+			setCurrentStep(registrationStepsKeys[currentIndex - 1]);
+		}
+		return canGetBack;
+	}, [currentIndex]);
+	useBlocker(shouldBlock);
 
 	const progress = useMemo(
 		() =>
