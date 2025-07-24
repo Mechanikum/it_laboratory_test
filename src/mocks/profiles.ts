@@ -27,6 +27,9 @@ export async function generateMockUsers(count: number) {
 	const { data: images } = await api.get<string[]>("/api/images.json");
 
 	console.log("Generating profiles");
+	console.log("FROM:");
+	console.log("passions:", passions);
+	console.log("images:", images);
 	return Array.from({ length: count }, (_, i) => {
 		console.log(`Generating profile #${i}`);
 		const id = crypto.randomUUID();
