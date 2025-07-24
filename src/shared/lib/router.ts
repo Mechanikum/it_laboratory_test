@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
 	createBrowserRouter,
 	type LoaderFunctionArgs,
@@ -5,6 +6,7 @@ import {
 } from "react-router";
 import AppRoot from "@/routes/app/app-root";
 import MainScreen from "@/routes/app/main-screen";
+import Settings from "@/routes/app/settings";
 import Login from "@/routes/auth/login";
 import Registration from "@/routes/auth/registration";
 import Root from "@/routes/root";
@@ -27,7 +29,25 @@ const router = createBrowserRouter([
 		children: [
 			{
 				Component: AppRoot,
-				children: [{ index: true, Component: MainScreen }],
+				children: [
+					{ index: true, Component: MainScreen },
+					{
+						path: "settings",
+						Component: Settings,
+					},
+					{
+						path: "search",
+						Component: Fragment,
+					},
+					{
+						path: "ai",
+						Component: Fragment,
+					},
+					{
+						path: "chats",
+						Component: Fragment,
+					},
+				],
 				loader: requireAuthLoader,
 			},
 			{ path: "login", Component: Login },

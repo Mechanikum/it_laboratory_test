@@ -1,9 +1,9 @@
 {
-	"name": "User 1",
+	"name": "Your user name",
 	"age": "22",
 	"verified": true,
-	"passions": [],
-	"photos": [],
+	"passions": ["Travel", "Language exchange", "Films"],
+	"photos": ["/images/brooke-balentine-nRZAp7Tnhjk-unsplash.webp"],
 	"settings": {
 		"theme": "system"
 	}

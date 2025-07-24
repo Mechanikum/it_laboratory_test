@@ -1,14 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { generateMockUsers } from "@/mocks/profiles";
-import { api } from "@/shared/api";
+import { urlToFilePromise } from "@/shared/api/helpers/url-to-file-promise";
 import type { UserData } from "@/shared/model/user";
-
-async function urlToFile(url: string) {
-	const { data: blob } = await api.get(url, { responseType: "blob" });
-	return new File([blob], url.split("/").pop() ?? "photo", {
-		type: blob.type,
-	});
-}
 
 const fetchProfiles = async () => {
 	const profiles = await generateMockUsers(10);
@@ -17,7 +10,7 @@ const fetchProfiles = async () => {
 		(u) =>
 			({
 				...u,
-				photos: u.photos.map(urlToFile),
+				photos: u.photos.map(urlToFilePromise),
 			}) as UserData,
 	);
 };
@@ -39,5 +32,8 @@ export const useProfiles = () => {
 			}
 			return firstPageParam - 1;
 		},
+		refetchOnMount: false,
+		refetchOnWindowFocus: false,
+		refetchOnReconnect: false,
 	});
 };

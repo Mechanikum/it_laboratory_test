@@ -10,18 +10,23 @@ interface ThemeState {
 
 const STORAGE_KEY = "vite-ui-theme";
 
-const applyTheme = (theme: Theme) => {
-	const root = document.documentElement;
-	root.classList.remove("light", "dark");
-
+export const sanitizeTheme = (theme: Theme) => {
 	if (theme === "system") {
 		const isDark = window.matchMedia(
 			"(prefers-color-scheme: dark)",
 		).matches;
-		root.classList.add(isDark ? "dark" : "light");
-	} else {
-		root.classList.add(theme);
+		return isDark ? "dark" : "light";
 	}
+	return theme;
+};
+
+const applyTheme = (theme: Theme) => {
+	const root = document.documentElement;
+	root.classList.remove("light", "dark");
+
+	const sanitizedTheme = sanitizeTheme(theme);
+
+	root.classList.add(sanitizedTheme);
 };
 
 export const useThemeStore = create<ThemeState>()(

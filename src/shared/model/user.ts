@@ -14,9 +14,8 @@ const UserSettingsSchema = z.object({
 });
 
 export type UserData = z.input<typeof UserSchema>;
+export type BackendUserData = z.infer<typeof UserSchema> & { photos: string[] };
 
-export type UserDataWithSettings = UserData & {
-	settings: z.infer<typeof UserSettingsSchema>;
-};
+export type UserSettings = z.infer<typeof UserSettingsSchema>;
 
 export default UserSchema;
