@@ -33,6 +33,7 @@ export async function generateMockUsers(count: number) {
 	return Array.from({ length: count }, (_, i) => {
 		console.log(`Generating profile #${i}`);
 		const id = crypto.randomUUID();
+		console.log(`Generated ID ${id}`);
 		const name = `user_${id.slice(0, 5)}`;
 		const age = getRandomInt(18, 80);
 		const verified = Math.random() < 0.5 ? undefined : Math.random() < 0.8;
