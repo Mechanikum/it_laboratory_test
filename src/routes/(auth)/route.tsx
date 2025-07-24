@@ -1,14 +1,20 @@
-import {createFileRoute, Outlet} from '@tanstack/react-router'
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { z } from "zod";
 
-export const Route = createFileRoute('/(auth)')({
+export const Route = createFileRoute("/(auth)")({
 	component: App,
-})
+	validateSearch: z.object({
+		redirect: z.string().optional(),
+	}),
+	beforeLoad: ({ context }) => {
+		if (context.isAuthenticated) {
+			throw redirect({
+				to: "/",
+			});
+		}
+	},
+});
 
 function App() {
-	return (
-		<div className="p-2">
-			<h3>Welcome to login!</h3>
-			<Outlet/>
-		</div>
-	)
+	return <Outlet />;
 }
