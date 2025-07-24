@@ -15,9 +15,9 @@ export const useRegister = () => {
 
 	return useMutation({
 		mutationFn: async (data: RegistrationData) => {
-			const response = await api.post<RegisterResponse>(
+			const response = await api.get<RegisterResponse>(
 				"/api/register.json",
-				data,
+				{ params: data },
 			);
 			return response.data;
 		},
