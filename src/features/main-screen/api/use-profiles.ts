@@ -13,6 +13,9 @@ async function urlToFile(url: string) {
 const fetchProfiles = async () => {
 	const profiles = await generateMockUsers(10);
 
+	console.log("Retrieved profiles");
+	console.log(profiles);
+
 	return profiles.map<UserData>(
 		(u) =>
 			({

@@ -10,7 +10,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 	component: () => (
 		<div
 			className={
-				"h-screen w-screen max-w-xl mx-auto overflow-hidden flex flex-col justify-center"
+				"h-dvh w-screen max-w-xl mx-auto overflow-hidden flex flex-col justify-center"
 			}
 		>
 			<Outlet />
